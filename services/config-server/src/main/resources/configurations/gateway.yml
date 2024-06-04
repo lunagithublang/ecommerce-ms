@@ -1,0 +1,52 @@
+server:
+  port: 9999
+
+eureka:
+  client:
+    register-with-eureka: false
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer:uri: "http://localhost:9090/realms/micro-services"
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+        - id: customers
+          uri: http://localhost:8090
+          predicates:
+            - Path=/api/v1/customers/**
+        - id: products
+          uri: http://localhost:8091
+          predicates:
+            - Path=/api/v1/products/**
+        - id: orders
+          uri: http://localhost:8092
+          predicates:
+            - Path=/api/v1/orders/**
+        - id: order-lines
+          uri: http://localhost:8092
+          predicates:
+            - Path=/api/v1/orders-lines/**
+        - id: payments
+          uri: http://localhost:8093
+          predicates:
+            - Path=/api/v1/payments/**
+        - id: notifications
+          uri: http://localhost:8094
+          predicates:
+            - Path=/api/v1/notifications/**
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0

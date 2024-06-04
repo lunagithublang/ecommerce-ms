@@ -1,0 +1,17 @@
+spring:
+  data:
+    mongodb:
+      username: md
+      password: password
+      host: localhost
+      port: 27017
+      database: customers
+      authentication-database: admin
+
+server:
+  port: 8090
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
